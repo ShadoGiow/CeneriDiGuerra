@@ -1,0 +1,285 @@
+﻿CENERI DI GUERRA (Ashes of War) - v1.2.1 - uso personale
+==========================================================
+
+NOVITA' DELLA 1.2.1  (solo DLL: le animazioni, l'ESP e il catalogo 1.2 restano quelli della 1.2.0)
+----------------------------------------------------------------------
+1. REMAPPING DELLO SNEAK RIPRISTINATO. Nella 1.2.0 avevo tolto il modulo che sposta lo Sneak in
+   memoria, perche' mi avevi detto che il controlmap.txt dentro Complete Controller Setup bastava.
+   Non bastava: con la 1.2.0 lo Sneak e' tornato su L3 e la Freccia giu' non faceva niente, anche
+   dopo aver tolto ControlMap_Custom.txt dalla cartella del gioco (prova fatta da te). Quindi il
+   modulo e' tornato, identico a quello della 1.1.5 (gia' provato da te): Controls.cpp/.h, la
+   sezione "Tasti del gioco: Sneak" in F1 -> Impostazioni e le chiavi INI [Controlli] SneakTasto /
+   SneakAiuto.
+   - Il predefinito adesso e' SNEAK SU FRECCIA GIU' (SneakTasto = giu): non devi toccare niente.
+     Con SneakTasto = L3 il DLL non cambia nessun tasto.
+   - Il cambio e' solo in memoria: non scrive niente sul disco e non tocca ControlMap_Custom.txt.
+   - Se la tua INI ha ancora SneakTasto = L3 da una versione vecchia, la 1.2.1 la rispetta: in quel
+     caso scegli "Freccia giu" in F1 -> Impostazioni (o scrivi SneakTasto = giu nell'INI).
+   - Nel registro (CeneriDiGuerra.log) tornano le righe "controlli ...": i byte del controlmap.txt
+     visto dal gioco, la presenza di ControlMap_Custom.txt, la tabella dei tasti del pad, dove stava lo
+     Sneak prima e dopo, e per ogni pressione di croce/Start/Back/L3/R3 il comando associato
+     (es. "pad: premuto 0x0002 -> evento 'Sneak'").
+   NON SO perche' il gioco non applichi il controlmap.txt (i due file, quello di Complete Controller
+   Setup e quello di Gamepad++, hanno gia' lo Sneak su Freccia giu'). Il registro nuovo dovrebbe
+   dirlo: se lo Sneak non va ancora, mandami CeneriDiGuerra.log.
+   Non provato in gioco da me.
+2. Tutto il resto e' come nella 1.2.0 (slot con "Cambia i tasti", descrizioni al passaggio del mouse).
+
+NOVITA' DELLA 1.2.0  (DLL + elenco mosse con le descrizioni; animazioni, ESP e suoni restano quelli della 1.1)
+----------------------------------------------------------------------
+1. [SUPERATO dalla 1.2.1: il remapping e' tornato, vedi sopra] TOLTO TUTTO IL REMAPPING DEI TASTI. Lo Sneak lo hai risolto tu con il controlmap nuovo
+   dentro Complete Controller Setup: il DLL non legge ne' cambia piu' nessun tasto del gioco
+   (spariti Controls.cpp/.h, la sezione "Tasti del gioco: Sneak" del menu, il registro
+   "pad: premuto..." e le chiavi INI [Controlli] SneakTasto / SneakAiuto: se sono ancora nel
+   tuo INI vengono ignorate e spariscono al prossimo salvataggio). Il file ControlMap_Custom.txt
+   del gioco non e' mai stato toccato dal DLL. La patch CeneriDiGuerra_PATCH_Sneak.zip non serve piu'
+   e non e' piu' nel pacchetto.
+2. SCELTA DEI TASTI DEGLI SLOT RIFATTA (F1 -> Slot e Mosse). Sotto ogni slot c'e' un pulsante
+   "Cambia i tasti". Quando lo premi compaiono i tasti del pad (LB RB LT RT / L3 R3 A B X Y /
+   croce / Back Start): CLICCA con il mouse quelli della combinazione ([LB] = attivo). Cosi'
+   non serve piu' premere nulla sul pad. Resta anche "Registra premendo i tasti sul pad".
+   Sotto trovi il tempo di pressione. In alto c'e' la riga "Tasti premuti adesso": se premi un
+   tasto del pad e li' non compare niente, il DLL non sta leggendo il pad; se compare un tasto
+   anche senza toccare nulla, e' un tasto "incollato" (e la registrazione non puo' finire).
+   Nuovo pulsante "Tasti pronti": LB (tenuto) / LB+RT / LB+RB (oltre a L3 e LT).
+   NOTA SUL "GRIGIO": il testo "tasti: ..." sotto ogni slot era grigio perche' l'avevo scritto
+   cosi' (e' solo un'informazione), non perche' fosse disabilitato; i pulsanti veri erano dentro
+   "Cambia i tasti dello Slot N", chiuso di default. Non so se il tuo problema fosse questo o
+   un'altra causa: se anche con i pulsanti cliccabili qualcosa non va, mandami CeneriDiGuerra.log.
+3. DESCRIZIONI DELLE MOSSE al passaggio del mouse (sul nome della mossa in elenco e sul nome
+   dello slot). ATTENZIONE: le mod NON contengono descrizioni vere per quasi nessuna mossa
+   (gli oggetti "Ashes NN" di Ashes of War e le scritte "Rim Scroll" di Elden Rim hanno il campo
+   descrizione VUOTO). Le descrizioni che vedi le ho ricavate io da:
+     - il nome della tua cartella (es. Affondo, Trottola, Launcher, Pugnozzo...);
+     - i nomi degli incantesimi che l'animazione usa, scritti dagli autori delle mod
+       (es. "AttackDebuff - Unbalance", "Frost Stomp"): ne ricavo effetti come "ignora la parata",
+       "lancia il nemico in aria", "fuoco", "ghiaccio"...;
+     - per Ashes of War: il nome inglese tradotto alla lettera e la nota che l'autore ha messo
+       nel nome del file (arma o uso).
+   Sono INDICATIVE, non scritte da chi ha fatto le mosse, e possono sbagliare. Se una non ti
+   convince la cambi nell'INI, sezione [Descrizioni] (es.  096 = Salto e affondo), vale dal
+   prossimo avvio. Le stesse descrizioni sono anche in ELENCO_MOSSE.txt.
+4. Include tutto della 1.1.3: se OAR non conferma la clip, il DLL ferma l'attacco e RIPROVA lo
+   stesso evento (Tentativi = 2) e aspetta fino a 0.5 s la fine di un attacco gia' in corso
+   (utile per LB+RB e One Click Power Attack su RB).
+Non provato in gioco da me (non posso compilare ne' avviare Skyrim): la compilazione e la prova sono tue.
+Per le mosse le animazioni non sono cambiate: aggiorna solo DLL e catalogo (vedi INSTALLAZIONE).
+
+
+COSA E'
+-------
+Una mod SKSE tutta tua, nello stile di BladeFireMode: un menu su F1 (SKSE Menu
+Framework) dove scegli quale mossa speciale assegnare a ciascuno di 3 slot.
+Le 215 mosse vengono dalle animazioni di:
+  - Ashes of War - Weapon Art via Additional Attack (Nexus 100174)
+  - Elden Rim (Nexus 65625): Ash Pack 1, 2, 3, Special Weapon Art e le cartelle
+    WarAsh di Weapon Art 3.2.7
+Le animazioni sono copie degli originali (a parte i 4 ritocchi elencati sotto).
+Le mosse partono SOLO da questa mod (nessun altro le usa, nessun NPC), e sono
+pensate per lo spadone a due mani. Elenco completo: ELENCO_MOSSE.txt.
+
+
+NOVITA' DELLA 1.1  (dopo la tua prova della 1.0)
+------------------------------------------------
+1. EFFETTO A TERRA (polvere/fumo) in 16 mosse: Affondo VertMag 129, CalciSlash 109,
+   CalciVolanti 1 e 2 (108, 164), ColpoCoda1 153, ComboAereo 118, ComboPesante 132,
+   DoppioCirc 122, Dropkick 145, Rotazione 1 e 2 (115, 116), StompRoteaz 117,
+   Tornado 139, W041, W045, S006.
+   Confrontandole ho trovato che condividono tutte lo stesso effetto: il fumo
+   "Senpou dust" (EldenFootCollapsedSmoke), che usa la texture fxsmoke.dds di
+   Elden Rim. Nella 1.0 NON l'avevo messa nello zip (credevo di sovrascrivere una
+   texture di Skyrim): il mio errore. Ora la spedisco con un nome tutto suo
+   (textures\effects\cdgsmk1.dds) e il modello punta li': non tocca nessun file
+   del gioco ne' di altre mod. Lo stesso effetto e' usato anche da altre mosse
+   (155, S028, 154, 163, 167, 197, 204...), che dovrebbero migliorare allo stesso modo.
+   NON posso verificarlo da qui: se manca ancora, dimmelo con il nome della mossa.
+2. MENU: assegnazione diretta. Accanto a ogni mossa ci sono i pulsanti 1 2 3: premi
+   il numero e la mossa va in quello slot (diventa [2] e il nome si colora di
+   verde con "<- Slot 2"). Niente piu' "slot di destinazione" da scegliere prima.
+   In alto vedi i 3 slot con la mossa assegnata, i tasti, "Prova" e "Svuota".
+3. PREFERITI con la stella (come in Photo Mode): [ ] accanto a ogni mossa -> [*].
+   Con il mouse sopra una mossa, Ctrl+F mette/toglie la stella (e' lo stesso
+   tasto di Photo Mode). Le mosse con la stella compaiono in cima nella sezione
+   "Preferiti", da qualunque pacchetto. Sono salvate nel file INI, sezione [Preferiti].
+4. SEZIONI trasversali ai pacchetti:
+     "Combo eleganti" (11): ComboElegante 1-6 + W013 e W014 (ComboMag 3-4) + A919,
+        A917, A908.  NOTA: tu hai scritto "W024": non esiste, ho messo W014 che e'
+        ComboMag 4. Se volevi un'altra, dimmelo.
+     "Fuoco" (18): le mosse che usano il fuoco. Le ho riconosciute in automatico
+        dagli effetti (incantesimi, esplosioni, modelli con fuoco/fiamma nel nome),
+        quindi puo' esserci qualche errore: l'elenco e' in ELENCO_MOSSE.txt e si
+        corregge nel file INI, sezione [Sezioni]  (es.  A956 = Combo eleganti ).
+   Le mosse che stanno in una sezione non sono ripetute nei pacchetti.
+5. SUPERSLAM 204 / 204-Ex1 / 204-Ex2: tolti SOLO i suoni di carica (restano
+   suono finale e colpo).
+6. WICKED THROW (A920): era l'unica mossa con l'evento "AttackPowerStartLeft"
+   dentro l'animazione. Quell'evento fa partire un attacco potente "a mano
+   sinistra" del gioco, e credo sia il colpo pesante vanilla che vedevi. L'ho reso
+   inoffensivo. E' un'ipotesi, non l'ho provata: se dopo il test succede ancora,
+   mandami CeneriDiGuerra.log (ora scrive gli eventi di animazione di ogni mossa).
+7. L3 E LO SNEAK: vedi la sezione dedicata sotto (patch separata).
+8. Tasti pronti: nel menu, pulsante "L3 (tenuto) / L3+RT / L3+RB" oppure "LT ...".
+   Il predefinito per un'installazione nuova e' L3; se hai gia' un INI della 1.0 resta
+   com'era finche' non premi il pulsante.
+
+
+IMPORTANTE - LEGGI PRIMA DI INSTALLARE (stato reale del lavoro)
+---------------------------------------------------------------
+* Io non posso compilare con le librerie vere di Skyrim ne' avviare il gioco.
+  Dalla tua prova della 1.0 so che il DLL si carica, il menu F1 funziona e le
+  mosse partono. Le modifiche della 1.1 al DLL (menu, impostazioni, catalogo)
+  le ho controllate solo per la sintassi con librerie "finte": alla compilazione
+  su GitHub potrebbe uscire qualche errore. In quel caso incolla qui il log
+  di GitHub Actions e li correggo.
+* I ritocchi ai dati (texture del fumo, suoni 204, evento di A920, sezioni) sono
+  controllati con uno script (0 errori) ma NON provati in gioco.
+* Le animazioni sono nate per armi a una mano e qui girano sullo spadone: gli
+  attacchi possono non combaciare perfettamente con la lama.
+* Gli spadoni (2H spada) sono coperti. Asce e martelli a due mani usano un altro
+  nome di clip (2hw_...) e per ora NON sono coperti (c'e' l'opzione
+  AncheAsciMartelli2H, ma funziona solo se il tuo set MCO usa gli stessi nomi di
+  clip dello spadone).
+* Le catene (DoppioSlash 2->3->4, Aereo 1->2) si decidono quando premi il tasto
+  e dipendono dagli incantesimi-marcatore lanciati dentro le animazioni: sono
+  "al meglio", non garantite.
+* Due mosse non hanno nome nelle tue cartelle: id 48 (codice 119) e id 96
+  (codice 190-1h). Dai loro un nome nella sezione [Nomi] del file INI.
+* Alcune mosse lanciano effetti con file che non sono nei tuoi sorgenti
+  (modelli .nif, .dds, .wav di proiettili magici di Muramasa/Overflowing/voci,
+  ecc.). Se mancano nel gioco, quell'effetto non si vede ma l'animazione
+  funziona. La mossa A936 richiama anche "Law of Regression.esp" e
+  "Colorful_Magic_SE.esp": se non li hai, quella parte viene ignorata.
+* Se per una mossa parte un attacco normale del gioco invece della mossa, vedi
+  "SE LA MOSSA NON PARTE".
+
+
+COSA CONTIENE LO ZIP  CeneriDiGuerra_MOD.zip
+--------------------------------------------
+I file sono nella radice dell'archivio (nessuna cartella contenitore):
+  CeneriDiGuerra.esp            plugin ESL (si carica senza occupare slot)
+  meshes\                       215 cartelle OAR + modelli degli effetti
+  textures\  sound\  scripts\   risorse degli effetti e degli script
+  SKSE\PayloadInterpreter\Config\CeneriDiGuerra.ini   eventi delle animazioni
+  SKSE\Plugins\CeneriDiGuerra_catalogo.tsv            elenco mosse per il DLL (dalla 1.2 con la colonna descrizione)
+Manca solo CeneriDiGuerra.dll, che devi compilare (vedi COMPILA.txt).
+
+
+AGGIORNAMENTO DALLA 1.1 ALLA 1.2 (il caso piu' semplice)
+---------------------------------------------------------
+Ti bastano due cose, senza riscaricare i 143 MB delle animazioni:
+  1. CeneriDiGuerra_CATALOGO_1.2.zip  -> in MO2 "Installa mod da archivio" e "Unisci" sulla mod
+     "Ceneri di Guerra": sostituisce solo SKSE\Plugins\CeneriDiGuerra_catalogo.tsv (le descrizioni).
+  2. Il DLL nuovo (compilato con GitHub dai sorgenti di CeneriDiGuerra_DLL_sorgenti.zip) in SKSE\Plugins.
+Senza il catalogo nuovo il menu funziona lo stesso, ma senza descrizioni.
+
+INSTALLAZIONE (aggiornamento dalla 1.0)
+---------------------------------------
+1. Compila il DLL nuovo con GitHub (COMPILA.txt dentro CeneriDiGuerra_DLL_sorgenti.zip):
+   carica i file nuovi sopra a quelli vecchi del tuo repository.
+2. In MO2: "Installa mod da archivio" -> CeneriDiGuerra_MOD.zip, e scegli
+   "Unisci" (Merge) sulla mod "Ceneri di Guerra" gia' presente. Il file
+   CeneriDiGuerra.esp e le clip si sovrascrivono.
+3. Copia il nuovo CeneriDiGuerra.dll in  SKSE\Plugins  della mod.
+4. Il file CeneriDiGuerra.ini (scelte e tasti) NON e' nello zip: resta quello tuo,
+   nella cartella overwrite o nella mod, e viene letto anche dalla 1.1.
+5. Non toccare nessun'altra mod: questa non modifica Nemesis, file behavior ne'
+   le tue mod esistenti.
+Dimensione: circa 143 MB decompressa (85 MB in zip), perche' ogni animazione e'
+presente 3 volte (una per ciascuna clip sostituita).
+
+
+COME SI USA
+-----------
+Menu F1 -> Ceneri di Guerra:
+  * Slot e Mosse   : in alto stato e i 3 slot. Sotto, l'elenco: per ogni mossa
+                     [*] stella | 1 2 3 = mettila in quello slot | Prova | nome.
+                     Sezioni: Preferiti, Combo eleganti, Fuoco, poi un gruppo per
+                     origine. Con "Cambia i tasti" sotto lo slot scegli i tasti (clicca
+                     i tasti del pad nel menu, oppure registrali premendoli) e il tempo di
+                     pressione lunga (0 = istantaneo). Passando il mouse su una mossa vedi
+                     la descrizione. C'e' un filtro di ricerca (cerca anche per
+                     sezione, es. "fuoco") e l'opzione "elenco unico per nome".
+  * Impostazioni   : mosse attive, solo arma estratta, asce/martelli 2H, eventi
+                     da provare, tempi, catena automatica, blocco comandi,
+                     costo di stamina e attesa fra una mossa e l'altra.
+  * Diagnostica    : stato, prova eventi, cattura eventi, log.
+
+Slot e tasti (tutti cambiabili dal menu):
+  predefiniti 1.1:   Slot 1 = L3 tenuto (0,45 s)   Slot 2 = L3 + RT   Slot 3 = L3 + RB
+  versione 1.0:      Slot 1 = LT tenuto            Slot 2 = LT + RT   Slot 3 = LT + RB
+  (pulsante "Tasti pronti" nel menu; c'e' anche LB tenuto / LB+RT / LB+RB)
+L3 e' libero solo se lo Sneak non e' piu' su L3 nei comandi del gioco (nel tuo caso: il controlmap nuovo). Con le combinazioni a due tasti
+vince sempre quella composta rispetto a quella singola tenuta.
+
+Catene (DoppioSlash 2-3-4, Aereo 1-2): con "Catena automatica" attiva, premi di
+nuovo lo stesso slot mentre la mossa gira, nella finestra giusta, per passare
+allo stadio successivo.
+
+Condizioni per usarle: arma estratta e spadone a due mani (cambiabile in
+Impostazioni). Mentre la mossa gira, attacco/guardia/arma/urlo sono bloccati;
+a mossa finita tutto si sblocca da solo (anche dopo 8 s al massimo).
+
+Le scelte fatte restano nel file  Data\SKSE\Plugins\CeneriDiGuerra.ini
+(sotto MO2 viene scritto nella cartella "overwrite"). A mano:
+  [Slot1]  Mossa = 056            (il codice e' la prima parola nel menu)
+  [Preferiti]  Codici = 056,208-1,A902
+  [Sezioni]  A956 = Combo eleganti     096 = -     (toglie la mossa dalla sezione)
+  [Nomi]  119 = MioNome
+  [Descrizioni]  096 = testo breve senza accenti (sostituisce la descrizione del catalogo)
+
+
+L3 E LO SNEAK
+-------------
+Lo Sneak sulla Freccia giu' lo hai risolto tu cambiando il controlmap.txt dentro "Complete
+Controller Setup" (Sneak = 0x0002, Hotkey8 e la riga di menu su L3 liberati). Da quel momento
+L3 e' libero per le mosse. Il DLL non c'entra piu': non tocca nessun tasto del gioco.
+Promemoria (dai tentativi precedenti): il file ControlMap_Custom.txt nella cartella del gioco
+vince sul controlmap.txt delle mod e il gioco lo riscrive quando esci dal menu Controlli.
+
+SE LA MOSSA NON PARTE
+---------------------
+1. Menu F1 -> Diagnostica: guarda lo stato e l'ultima riga del log.
+2. Nella stessa pagina premi "Registra eventi per 25 secondi", poi nel gioco fai
+   uno sprint e un attacco potente normale con il tuo spadone: gli eventi
+   d'attacco finiscono nel registro. Cerca quello dell'attacco potente in corsa e
+   scrivilo in Impostazioni -> "Eventi d'animazione da provare" (oppure
+   [Avvio] Eventi = nomeEvento,altro nel file INI, separati da virgola).
+   Il pulsante "Invia" della stessa pagina ti permette di provare un evento a mano.
+3. Il DLL prova gli eventi in ordine e, appena OAR conferma che la clip e'
+   stata sostituita, ricorda quello giusto.
+4. Il log si trova in
+   Documenti\My Games\Skyrim Special Edition\SKSE\CeneriDiGuerra.log
+   (nella 1.1 "Scrivi gli eventi di animazione nel registro" e' attivo di
+   default: ogni mossa scrive i suoi eventi). Mandamelo e ci lavoro sopra:
+   posso leggerlo direttamente dalla cartella che mi hai collegato.
+
+Prova rapida della polvere a terra (senza lanciare una mossa): apri la console e
+scrivi   help "Senpou dust" 4   per vedere l'ID dell'incantesimo, poi
+player.cast <ID> player   (sostituisci <ID> con quello mostrato). Se vedi il fumo
+ai piedi, la texture e' a posto.
+
+
+CARTELLE ESCLUSE ("CANC")
+-------------------------
+117 cartelle con CANC nel nome (maiuscole o minuscole) non sono state incluse:
+Pacchetto 1 = 11, Pacchetto 2 = 14, Pacchetto 3 = 26, Weapon Art = 34,
+Speciali = 32. L'elenco e' in fondo a ELENCO_MOSSE.txt.
+
+Le mosse con la stessa animazione in piu' posti sono state unite in una sola
+voce (nell'elenco appare "identica a:"), cosi' il selettore non ha doppioni.
+Le cartelle con nome uguale hanno un numero progressivo (es. Buff 1..Buff 8).
+Ho guardato anche la mod Additional Attack (51851) installata in Nolvus: contiene
+solo l'impianto (plugin, script, Nemesis) e 3 clip di attacco base (AABL_Attack_A,
+AABL_Attack_B, NiIru_forward_dash_attack), cioe' nessuna mossa speciale da
+aggiungere, quindi non ho incluso nulla da li'.
+
+
+FILE DI CONTROLLO
+-----------------
+Prima di consegnare ho verificato con uno script: 215 mosse, 215 cartelle OAR
+con un solo "Move ID" ciascuna, nessun codice duplicato, config.json UTF-8
+senza BOM, 3 copie identiche e firma Havok valida per ogni clip (le 4 clip
+ritoccate hanno lo stesso numero di byte), ESP valido ed ESL, tutti gli ID
+richiamati dalle animazioni presenti nel plugin, tutte le texture dei modelli
+presenti o di Skyrim. 0 errori.
+Questo prova che i file sono coerenti, NON che le mosse girino bene in gioco.
